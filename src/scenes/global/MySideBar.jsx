@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { Sidebar, Menu, MenuItem, useProSidebar } from "react-pro-sidebar";
+import {
+  Sidebar,
+  Menu,
+  MenuItem,
+  useProSidebar,
+  menuClasses,
+  sidebarClasses,
+} from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import { tokens } from "../../theme";
@@ -22,8 +29,13 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
   return (
     <MenuItem
       active={selected === title}
-      style={{
-        color: colors.grey[100],
+      rootStyles={{
+        ["." + menuClasses.button]: {
+          "&:hover": {
+            backgroundColor: colors.grey[700],
+            borderRadius: "15px",
+          },
+        },
       }}
       onClick={() => setSelected(title)}
       icon={icon}
@@ -41,9 +53,19 @@ const MySideBar = () => {
   const [selected, setSelected] = useState("Dashboard");
 
   return (
-    <div>
-      <Sidebar>
-        <Menu iconShape="square">
+    <div style={{ display: "flex", height: "100%", minHeight: "400px" }}>
+      <Sidebar backgroundColor={colors.primary[400]}>
+        <Menu
+          menuItemStyles={{
+            backgroundColor: colors.primary[400],
+            button: ({ active }) => {
+              return {
+                backgroundColor: active ? colors.primary[400] : undefined,
+                color: active ? "#6870fa" : undefined,
+              };
+            },
+          }}
+        >
           {/* LOGO AND MENU ICON */}
           <MenuItem
             onClick={() => collapseSidebar()}
@@ -52,6 +74,13 @@ const MySideBar = () => {
               margin: "10px 0 20px 0",
               color: colors.blueAccent[900],
             }}
+            rootStyles={{
+              ["." + menuClasses.button]: {
+                "&:hover": {
+                  backgroundColor: colors.primary[300],
+                },
+              },
+            }}
           >
             {!collapsed && (
               <Box
@@ -59,7 +88,6 @@ const MySideBar = () => {
                 justifyContent="space-between"
                 alignItems="center"
                 ml="15px"
-                onClick={() => collapseSidebar()}
               >
                 <Typography variant="h3" color={colors.grey[100]}>
                   ADMINIS
