@@ -5,7 +5,6 @@ import {
   MenuItem,
   useProSidebar,
   menuClasses,
-  sidebarClasses,
 } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -26,23 +25,28 @@ import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const linkStyle = {
+    textDecoration: "none",
+    color: colors.grey[300],
+  };
   return (
-    <MenuItem
-      active={selected === title}
-      rootStyles={{
-        ["." + menuClasses.button]: {
-          "&:hover": {
-            backgroundColor: colors.grey[700],
-            borderRadius: "15px",
+    <Link to={to} style={linkStyle}>
+      <MenuItem
+        active={selected === title}
+        rootStyles={{
+          ["." + menuClasses.button]: {
+            "&:hover": {
+              backgroundColor: colors.grey[700],
+              borderRadius: "15px",
+            },
           },
-        },
-      }}
-      onClick={() => setSelected(title)}
-      icon={icon}
-    >
-      <Typography>{title}</Typography>
-      <Link to={to} />
-    </MenuItem>
+        }}
+        onClick={() => setSelected(title)}
+        icon={icon}
+      >
+        <Typography>{title}</Typography>
+      </MenuItem>
+    </Link>
   );
 };
 
